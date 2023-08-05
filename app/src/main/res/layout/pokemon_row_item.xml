@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginEnd="@dimen/margin_6dp"
+    app:cardCornerRadius="@dimen/radius_30dp"
+    app:cardElevation="@dimen/elevation_8dp"
+    android:layout_marginBottom="@dimen/margin_12dp"
+    android:layout_marginStart="@dimen/margin_6dp"
+    android:layout_marginTop="@dimen/margin_6dp"
+    android:padding="@dimen/margin_20dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/pokemon_image"
+            android:layout_width="@dimen/img_200dp"
+            android:layout_height="@dimen/img_200dp"
+            android:src="@drawable/img"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/pokemon_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_15dp"
+            android:text="@string/move_name"
+            android:textSize="@dimen/text_24sp"
+            android:fontFamily="@font/poppins_extrabold"
+            android:textColor="@color/text_bold_b"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pokemon_image"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/pokemon_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:layout_marginBottom="@dimen/margin_25dp"
+            android:text="@string/pokemon_number"
+            android:textSize="@dimen/text_30sp"
+            android:fontFamily="@font/poppins"
+            android:textColor="@color/text_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pokemon_name"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

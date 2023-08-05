@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/pokemonDirectoryFragment"
-        android:name="com.example.pokedex.PokemonDirectoryFragment"
-        android:label="fragment_pokemon_directory"
+        android:name="com.example.pokedex.pokemonDirectory.PokemonDirectoryFragment"
+        android:label="FragmentDirectory"
         tools:layout="@layout/fragment_pokemon_directory" >
         <action
             android:id="@+id/navigateToDetailsFragment"
@@ -16,11 +16,18 @@
     </fragment>
     <fragment
         android:id="@+id/pokemonDetailsFragment"
-        android:name="com.example.pokedex.PokemonDetailsFragment"
-        android:label="fragment_pokemon_details"
+        android:name="com.example.pokedex.pokemonDetails.PokemonDetailsFragment"
+        android:label="FragmentDetails"
         tools:layout="@layout/fragment_pokemon_details" >
         <action
             android:id="@+id/navigateToDirectoryFragment"
             app:destination="@id/pokemonDirectoryFragment" />
+        <argument
+            android:name="pokemonName"
+            app:argType="string" />
+        <argument
+            android:name="pokemonNumber"
+            app:argType="integer" />
+
     </fragment>
 </navigation>

@@ -7,4 +7,21 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!--    App Specific Color Scheme-->
+    <color name="blue_grey">#AAC6D0</color>
+    <color name="blue_teal">#7DAEAB</color>
+    <color name="blue_green">#2C3F3B</color>
+    <color name="orange_ish">#DA9B77</color>
+    <color name="blue_blue">#97B6AE</color>
+    <color name="brown_ish">#966a5d</color>
+    <color name="app_blue">#F5FBFB</color>
+    <color name="text_bold">#232443</color>
+    <color name="text_bold_b">#323553</color>
+    <color name="text_small">#a2a7ae</color>
+    <color name="text_small_b">#aaaeb4</color>
+    <color name="search_bg">#ebf3f6</color>
+    <color name="search_btn">#5d5e7d</color>
+    <color name="search_hint_text">#CAD1D9</color>
+    <color name="text_bold_item">#435065</color>
 </resources>
