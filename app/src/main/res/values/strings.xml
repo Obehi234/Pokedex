@@ -14,4 +14,5 @@
     <string name="pokemonname">PokemonName</string>
     <string name="pokemonNumber">001</string>
     <string name="ability_name">ability Name</string>
+    <string name="pokemon_details_imageview">Pokemon Details imageView</string>
 </resources>

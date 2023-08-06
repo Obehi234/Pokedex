@@ -52,39 +52,43 @@ class PokemonDetailsFragment : Fragment() {
         binding.nameTV.setOnClickListener {
             findNavController().navigate(R.id.navigateToDirectoryFragment)
         }
-
         imageView = binding.ivDetails
         tabLayout = binding.tabLayout
         viewPager = binding.cardViewPager
-
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = PokemonDetailsPagerAdapter(childFragmentManager, lifecycle)
-        viewPager.adapter = adapter
+            pokemonName = args.pokemonName
+            setUpImgFragment(pokemonName)
 
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            when (position) {
-                0 -> tab.text = "Moves"
-                1 -> tab.text = "Stats"
-            }}.attach()
+            val movesFragment = MovesFragment.newInstance(pokemonName)
+            val statsFragment = StatsFragment.newInstance(pokemonName)
 
-            val pokemonName = args.pokemonName
-            setUpFragment(pokemonName)
+            val viewAdapter = PokemonDetailsPagerAdapter(childFragmentManager, lifecycle)
+            viewAdapter.addFragment(movesFragment)
+            viewAdapter.addFragment(statsFragment)
+
+            viewPager.adapter = viewAdapter
+
+            val tabTitles = arrayOf("Moves", "Stats")
+            TabLayoutMediator(tabLayout, viewPager) {tab, position ->
+                tab.text = tabTitles[position]
+            }.attach()
+
 
         }
-
-    private fun setUpFragment(pokemonName: String) {
-        detailsViewModel.showPokemonDetails(pokemonName)
+    private fun setUpImgFragment(pokemonName: String) {
+      detailsViewModel.showPokemonDetails(pokemonName)
         detailsViewModel.details.observe(viewLifecycleOwner, Observer { pokemonDetails ->
             val pokemonImage = pokemonDetails.sprites.back_default
             Picasso.with(binding.root.context)
                 .load(pokemonImage)
                 .into(imageView)
         })
+
     }
 
 
