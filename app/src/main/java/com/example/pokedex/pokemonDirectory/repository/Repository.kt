@@ -10,7 +10,7 @@ object Repository {
         RetrofitInstance.getInstance().create(ApiService::class.java)
 
     suspend fun getPokemonResult(): Response<PokemonList> {
-        return apiService.getPokemonForPokedex()
+        return apiService.getPokemon()
     }
 
 }

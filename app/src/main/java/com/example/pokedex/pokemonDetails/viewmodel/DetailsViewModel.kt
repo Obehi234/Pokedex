@@ -1,6 +1,5 @@
 package com.example.pokedex.pokemonDetails.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,8 +23,8 @@ class DetailsViewModel : ViewModel() {
                         _details.value = response.body()
                     }
                 }
-            } catch (e: Exception) {
-                Log.d("CHECK_DETAILS", "${e.message}")
+            } catch (_: Exception) {
+
             }
         }
     }

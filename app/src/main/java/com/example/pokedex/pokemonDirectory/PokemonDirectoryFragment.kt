@@ -4,18 +4,13 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedex.databinding.FragmentPokemonDirectoryBinding
 import com.example.pokedex.pokemonDirectory.viewmodel.PokemonViewModel
 
@@ -24,10 +19,6 @@ class PokemonDirectoryFragment : Fragment(), PokedexAdapter.OnItemClickListener 
     private var _binding: FragmentPokemonDirectoryBinding? = null
     private val binding get() = _binding!!
     private lateinit var pokemonViewModel: PokemonViewModel
-    private lateinit var rvDirectory: RecyclerView
-    private lateinit var pgBar: ProgressBar
-    private lateinit var tvInternet: TextView
-    private lateinit var ivInternet: ImageView
     private lateinit var rvAdapter: PokedexAdapter
 
     override fun onCreateView(
@@ -35,10 +26,6 @@ class PokemonDirectoryFragment : Fragment(), PokedexAdapter.OnItemClickListener 
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPokemonDirectoryBinding.inflate(inflater, container, false)
-        ivInternet = binding.ivInternet
-        tvInternet = binding.tvInternet
-        rvDirectory = binding.rvPokedex
-        pgBar = binding.progressBar
         rvAdapter = PokedexAdapter(this)
         return binding.root
     }
@@ -58,12 +45,12 @@ class PokemonDirectoryFragment : Fragment(), PokedexAdapter.OnItemClickListener 
             networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
 
         if (isConnected) {
-            ivInternet.visibility = View.GONE
-            tvInternet.visibility = View.GONE
+            binding.ivInternet.visibility = View.GONE
+            binding.tvInternet.visibility = View.GONE
             setUpRV()
         } else {
-            ivInternet.visibility = View.VISIBLE
-            tvInternet.visibility = View.VISIBLE
+            binding.ivInternet.visibility = View.VISIBLE
+            binding.tvInternet.visibility = View.VISIBLE
         }
     }
 
@@ -71,12 +58,13 @@ class PokemonDirectoryFragment : Fragment(), PokedexAdapter.OnItemClickListener 
         val action =
             PokemonDirectoryFragmentDirections.navigateToDetailsFragment(pokemonName, pokemonNumber)
         findNavController().navigate(action)
-        Log.d("CHECK_ARGS", "arguments - $pokemonNumber - $pokemonName")
     }
 
     private fun setUpRV() {
-        rvDirectory.setHasFixedSize(true)
-        rvDirectory.adapter = rvAdapter
+        binding.rvPokedex.apply {
+            setHasFixedSize(true)
+            adapter = rvAdapter
+        }
         pokemonViewModel.populatePokemonDirectoryFromApi()
         showProgressBar()
         pokemonViewModel.pokemon.observe(viewLifecycleOwner, Observer {
@@ -86,11 +74,11 @@ class PokemonDirectoryFragment : Fragment(), PokedexAdapter.OnItemClickListener 
     }
 
     private fun showProgressBar() {
-        pgBar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun hideProgressBar() {
-        pgBar.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
     }
 
     override fun onDestroyView() {
