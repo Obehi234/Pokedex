@@ -18,7 +18,6 @@ import com.example.pokedex.pokemonDirectory.viewmodel.PokemonViewModel
 class PokemonDirectoryFragment : Fragment(), PokedexAdapter.OnItemClickListener {
     private var _binding: FragmentPokemonDirectoryBinding? = null
     private val binding get() = _binding!!
-    private lateinit var pokemonViewModel: PokemonViewModel
     private lateinit var rvAdapter: PokedexAdapter
 
     override fun onCreateView(
@@ -26,13 +25,11 @@ class PokemonDirectoryFragment : Fragment(), PokedexAdapter.OnItemClickListener 
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPokemonDirectoryBinding.inflate(inflater, container, false)
-        rvAdapter = PokedexAdapter(this)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        pokemonViewModel = ViewModelProvider(this)[PokemonViewModel::class.java]
         checkInternet()
     }
 
@@ -61,6 +58,8 @@ class PokemonDirectoryFragment : Fragment(), PokedexAdapter.OnItemClickListener 
     }
 
     private fun setUpRV() {
+        val pokemonViewModel = ViewModelProvider(this)[PokemonViewModel::class.java]
+        rvAdapter = PokedexAdapter(this)
         binding.rvPokedex.apply {
             setHasFixedSize(true)
             adapter = rvAdapter

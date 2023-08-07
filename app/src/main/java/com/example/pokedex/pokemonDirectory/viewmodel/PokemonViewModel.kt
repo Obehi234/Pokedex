@@ -1,6 +1,5 @@
 package com.example.pokedex.pokemonDirectory.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,15 +22,9 @@ class PokemonViewModel : ViewModel() {
                     if (response.body() != null) {
                         val pokemonList = response.body()
                         _pokemon.value = pokemonList?.results ?: listOf()
-                    } else {
-                        Log.d(
-                            "CHECK_LIST",
-                            "Network Call failed with message: ${response.message()}"
-                        )
                     }
                 }
-            } catch (e: Exception) {
-                Log.d("CHECK_LIST", "${e.message}")
+            } catch (_: Exception) {
             }
         }
     }
