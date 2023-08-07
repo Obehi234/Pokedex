@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedex.databinding.FragmentMovesBinding
 import com.example.pokedex.pokemonDetails.viewmodel.DetailsViewModel
 
@@ -18,9 +16,6 @@ class MovesFragment : Fragment() {
     private var _binding: FragmentMovesBinding? = null
     private val binding get() = _binding!!
     private var pokemonName: String? = null
-    private lateinit var tvMove: TextView
-    private lateinit var detailsViewModel: DetailsViewModel
-    private lateinit var rvMoves: RecyclerView
     private lateinit var movesAdapter: MovesAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +29,6 @@ class MovesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMovesBinding.inflate(inflater, container, false)
-        detailsViewModel = ViewModelProvider(this)[DetailsViewModel::class.java]
-        tvMove = binding.movesTV
-        rvMoves = binding.movesRV
         return binding.root
     }
 
@@ -46,14 +38,17 @@ class MovesFragment : Fragment() {
     }
 
     private fun setUpMovesFragment() {
+        val detailsViewModel = ViewModelProvider(this)[DetailsViewModel::class.java]
         pokemonName?.let { detailsViewModel.showPokemonDetails(it) }
         detailsViewModel.details.observe(viewLifecycleOwner, Observer { details ->
-            tvMove.text = details.moves.size.toString()
+            binding.movesTV.text = details.moves.size.toString()
             val moveList = details.moves
 
             movesAdapter = MovesAdapter(moveList)
-            rvMoves.adapter = movesAdapter
-            rvMoves.setHasFixedSize(true)
+            binding.movesRV.apply{
+                adapter = movesAdapter
+                setHasFixedSize(true)
+            }
         })
     }
 
