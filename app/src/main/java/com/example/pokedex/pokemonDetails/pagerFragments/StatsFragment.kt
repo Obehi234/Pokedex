@@ -5,26 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import com.example.pokedex.databinding.FragmentStatsBinding
-import com.example.pokedex.pokemonDetails.viewmodel.DetailsViewModel
+import com.example.pokedex.pokemonDetails.sharedViewModel.SharedViewModel
 
-
-private const val ARG_PARAM1 = "pokemonName"
 
 class StatsFragment : Fragment() {
     private var _binding: FragmentStatsBinding? = null
     private val binding get() = _binding!!
     private var pokemonName: String? = null
-    private lateinit var detailsViewModel: DetailsViewModel
+    private val sharedViewModel: SharedViewModel by activityViewModels()
     private lateinit var statsAdapter: StatsAdapter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            pokemonName = it.getString(ARG_PARAM1)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,9 +31,10 @@ class StatsFragment : Fragment() {
     }
 
     private fun setUpFragment() {
-        detailsViewModel = ViewModelProvider(this)[DetailsViewModel::class.java]
-        pokemonName?.let { detailsViewModel.showPokemonDetails(it) }
-        detailsViewModel.details.observe(viewLifecycleOwner, Observer { details ->
+        sharedViewModel.pokemonName.observe(viewLifecycleOwner) { name ->
+            pokemonName = name
+        }
+        sharedViewModel.details.observe(viewLifecycleOwner) { details ->
             binding.statsTV.text = details.stats.size.toString()
             val statsList = details.stats
 
@@ -51,16 +43,8 @@ class StatsFragment : Fragment() {
                 adapter = statsAdapter
                 setHasFixedSize(true)
             }
-        })
+        }
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(pokemonName: String) =
-            StatsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, pokemonName)
-                }
-            }
-    }
+
 }

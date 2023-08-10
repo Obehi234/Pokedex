@@ -5,26 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.example.pokedex.R
 import com.example.pokedex.databinding.FragmentPokemonDetailsBinding
 import com.example.pokedex.pokemonDetails.pagerAdapter.PokemonDetailsPagerAdapter
 import com.example.pokedex.pokemonDetails.pagerFragments.MovesFragment
 import com.example.pokedex.pokemonDetails.pagerFragments.StatsFragment
-import com.example.pokedex.pokemonDetails.viewmodel.DetailsViewModel
+import com.example.pokedex.pokemonDetails.sharedViewModel.SharedViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
 
 class PokemonDetailsFragment : Fragment() {
     private val args: PokemonDetailsFragmentArgs by navArgs()
     private var _binding: FragmentPokemonDetailsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var detailsViewModel: DetailsViewModel
     private var pokemonName: String = ""
     private var pokemonNumber: Int = 0
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,28 +31,24 @@ class PokemonDetailsFragment : Fragment() {
     ): View {
 
         _binding = FragmentPokemonDetailsBinding.inflate(inflater, container, false)
-        binding.apply {
-            nameTV.text = pokemonName
-            nameTV.setOnClickListener {
-                findNavController().navigate(R.id.navigateToDirectoryFragment)
-            }
-            numberTV.text = String.format("#%03d", pokemonNumber)
-        }
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        detailsViewModel = ViewModelProvider(this)[DetailsViewModel::class.java]
         pokemonName = args.pokemonName
         pokemonNumber = args.pokemonNumber
 
-        setUpImgFragment(pokemonName)
+        sharedViewModel.setPokemonName(pokemonName)
+        sharedViewModel.pokemonName.observe(viewLifecycleOwner){pokemon ->
+            binding.nameTV.text = pokemon
+        }
+        lifecycleScope.launch {
+            setUpImgFragment(pokemonName)
+        }
 
-        val movesFragment = MovesFragment.newInstance(pokemonName)
-        val statsFragment = StatsFragment.newInstance(pokemonName)
+        val movesFragment = MovesFragment()
+        val statsFragment = StatsFragment()
 
         val viewAdapter = PokemonDetailsPagerAdapter(childFragmentManager, lifecycle)
         viewAdapter.addFragment(movesFragment)
@@ -68,14 +63,14 @@ class PokemonDetailsFragment : Fragment() {
 
     }
 
-    private fun setUpImgFragment(pokemonName: String) {
-        detailsViewModel.showPokemonDetails(pokemonName)
-        detailsViewModel.details.observe(viewLifecycleOwner, Observer { pokemonDetails ->
+    private suspend fun setUpImgFragment(pokemonName: String) {
+        sharedViewModel.getPokemonDetails(pokemonName)
+        sharedViewModel.details.observe(viewLifecycleOwner){ pokemonDetails ->
             val pokemonImage = pokemonDetails.sprites.back_default
             Picasso.with(binding.root.context)
                 .load(pokemonImage)
                 .into(binding.ivDetails)
-        })
+        }
 
     }
 
