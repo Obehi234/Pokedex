@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.pokedex.databinding.FragmentPokemonDetailsBinding
 import com.example.pokedex.pokemonDetails.pagerAdapter.PokemonDetailsPagerAdapter
 import com.example.pokedex.pokemonDetails.pagerFragments.MovesFragment
+import com.example.pokedex.pokemonDetails.pagerFragments.SpritesFragment
 import com.example.pokedex.pokemonDetails.pagerFragments.StatsFragment
 import com.example.pokedex.pokemonDetails.sharedViewModel.SharedViewModel
 import com.google.android.material.tabs.TabLayoutMediator
@@ -49,14 +50,17 @@ class PokemonDetailsFragment : Fragment() {
 
         val movesFragment = MovesFragment()
         val statsFragment = StatsFragment()
+        val spritesFragment = SpritesFragment()
 
         val viewAdapter = PokemonDetailsPagerAdapter(childFragmentManager, lifecycle)
+        viewAdapter.addFragment(spritesFragment)
         viewAdapter.addFragment(movesFragment)
         viewAdapter.addFragment(statsFragment)
 
+
         binding.cardViewPager.adapter = viewAdapter
 
-        val tabTitles = arrayOf("Moves", "Stats")
+        val tabTitles = arrayOf("Forms", "Moves", "Stats")
         TabLayoutMediator(binding.tabLayout, binding.cardViewPager) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()

@@ -6,49 +6,54 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.pokedex.databinding.FragmentStatsBinding
+import com.example.pokedex.databinding.FragmentSpritesBinding
 import com.example.pokedex.pokemonDetails.sharedViewModel.SharedViewModel
+import com.squareup.picasso.Picasso
 
 
-class StatsFragment : Fragment() {
-    private var _binding: FragmentStatsBinding? = null
+class SpritesFragment : Fragment() {
+
+    private var _binding: FragmentSpritesBinding? = null
     private val binding get() = _binding!!
-    private var pokemonName: String? = null
     private val sharedViewModel: SharedViewModel by activityViewModels()
-    private lateinit var statsAdapter: StatsAdapter
+    private var pokemonName: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentStatsBinding.inflate(inflater, container, false)
+        _binding = FragmentSpritesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpFragment()
-    }
-
-    private fun setUpFragment() {
         sharedViewModel.pokemonName.observe(viewLifecycleOwner) { name ->
             pokemonName = name
         }
-        sharedViewModel.details.observe(viewLifecycleOwner) { details ->
-            binding.statsTV.text = details.stats.size.toString()
-            val statsList = details.stats
+        sharedViewModel.details.observe(viewLifecycleOwner){details ->
+            Picasso.with(binding.root.context)
+                .load(details.sprites.front_shiny)
+                .into(binding.sprite1)
 
-            statsAdapter = StatsAdapter(statsList)
-            binding.statsListView.apply {
-                adapter = statsAdapter
-                setHasFixedSize(true)
-            }
+            Picasso.with(binding.root.context)
+                .load(details.sprites.front_default)
+                .into(binding.sprite2)
+
+            Picasso.with(binding.root.context)
+                .load(details.sprites.back_shiny)
+                .into(binding.sprite3)
+
+            Picasso.with(binding.root.context)
+                .load(details.sprites.back_default)
+                .into(binding.sprite4)
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }
