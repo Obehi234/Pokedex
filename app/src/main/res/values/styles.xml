@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="SearchViewStyle">
+        <item name="android:textColorHint">@color/search_hint_text</item>
+    </style>
+</resources>

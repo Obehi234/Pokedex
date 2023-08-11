@@ -2,4 +2,17 @@
     <string name="app_name">Pokedex!</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pok_dex">Pokédex</string>
+    <string name="search_for_a_pok_mon_by_name_or_using_its_national_pok_dex_number">Search for a pokémon by name or using its National Pokédex number</string>
+    <string name="name_or_number">Name or number</string>
+    <string name="internet_icon">"icon depicting _No internet "</string>
+    <string name="number_format">format</string>
+    <string name="move_name">pokemonName</string>
+    <string name="pokemon_number">001</string>
+    <string name="no_internet">NO INTERNET</string>
+    <string name="go">GO</string>
+    <string name="pokemonname">PokemonName</string>
+    <string name="pokemonNumber">001</string>
+    <string name="ability_name">ability Name</string>
+    <string name="pokemon_details_imageview">Pokemon Details imageView</string>
 </resources>
