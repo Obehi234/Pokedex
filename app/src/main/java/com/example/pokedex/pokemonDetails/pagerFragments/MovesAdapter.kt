@@ -2,7 +2,6 @@ package com.example.pokedex.pokemonDetails.pagerFragments
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedex.databinding.FormsRecyclerItemBinding
 import com.example.pokedex.pokemonDetails.detailsModel.Move
@@ -10,13 +9,11 @@ import com.example.pokedex.pokemonDetails.detailsModel.Move
 class MovesAdapter(private val movesList: List<Move>) :
     RecyclerView.Adapter<MovesAdapter.MovesViewHolder>() {
 
-    inner class MovesViewHolder(binding: FormsRecyclerItemBinding) :
+    inner class MovesViewHolder(private val binding: FormsRecyclerItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val moveName: TextView = binding.abilityName
-
         fun bind(move: Move) {
-            moveName.text = move.move.name
+            binding.abilityName.text = move.move.name
         }
     }
 
